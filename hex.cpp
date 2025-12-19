@@ -132,7 +132,7 @@ void HexGame::printBoard() const {
             std::cout << std::string(11 - row, ' ');
 
             // Вывод номера строки
-            std::cout << std::setw(2) << row  << " ";
+            std::cout << std::setw(2) << row;
 
             int rowcopy = row;
             int col = 0;
