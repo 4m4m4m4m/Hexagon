@@ -31,7 +31,7 @@ int main() {
 
         // Õîä AI
         std::cout << "Move AI..." << std::endl;
-        Move aiMove = findBestMove(game, 3, ai);
+        Move aiMove = findBestMove(game, 2, ai);
 
         if (aiMove.row != -1) {
             game.makeMove(aiMove.row, aiMove.col, ai);

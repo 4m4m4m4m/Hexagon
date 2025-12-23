@@ -184,20 +184,20 @@ int evaluate(const HexGame& game, char player) {
                 score += (size - distanceFromCenter) * 10;
 
                 // Ячейки на краю важны для победы
-                if (player == 'X' && j == 0) score += 50;
-                if (player == 'X' && j == size - 1) score += 50;
-                if (player == 'O' && i == 0) score += 50;
-                if (player == 'O' && i == size - 1) score += 50;
+                if (player == 'X' && j == 0) score += 10;
+                if (player == 'X' && j == size - 1) score += 10;
+                if (player == 'O' && i == 0) score += 10;
+                if (player == 'O' && i == size - 1) score += 10;
             }
             else if (game.getCell(i, j) != ' ') {
                 // Противник
                 int distanceFromCenter = abs(size / 2 - i) + abs(size / 2 - j);
                 score -= (size - distanceFromCenter) * 10;
 
-                if (player != 'X' && j == 0) score -= 50;
-                if (player != 'X' && j == size - 1) score -= 50;
-                if (player != 'O' && i == 0) score -= 50;
-                if (player != 'O' && i == size - 1) score -= 50;
+                if (player != 'X' && j == 0) score -= 10;
+                if (player != 'X' && j == size - 1) score -= 10;
+                if (player != 'O' && i == 0) score -= 10;
+                if (player != 'O' && i == size - 1) score -= 10;
             }
         }
     }
