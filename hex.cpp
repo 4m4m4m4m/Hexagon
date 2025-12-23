@@ -34,16 +34,18 @@ vector<Move> HexGame::getValidMoves() const {
 
 vector<pair<int, int>> HexGame::getNeighbors(int row, int col) const {
     vector<pair<int, int>> neighbors;
-    int rowParity = row % 2;
+    int rowParity = 0;
 
     // 6 направлений для шестиугольника
     vector<pair<int, int>> dirs = {
-        {-1, 0 - rowParity},  // Верхний левый
-        {-1, 1 - rowParity},  // Верхний правый
+        //{-1, -1 - rowParity},  // Верхний левый
+        {-1, 1},  // Верхний правый
         {0, -1},              // Левый
         {0, 1},               // Правый
-        {1, 0 - rowParity},   // Нижний левый
-        {1, 1 - rowParity}    // Нижний правый
+        {-1, 0},               // Верхний
+        {1, 0},               // Нижний
+        {1, 0},   // Нижний левый
+        //{1, 1 - rowParity}    // Нижний правый
     };
 
     for (auto& dir : dirs) {
@@ -169,7 +171,7 @@ int evaluate(const HexGame& game, char player) {
     if (game.checkWin(player)) {
         return 10000;
     }
-    if (game.checkWin(player == 'X' ? 'O' : 'X')) {
+    if (game.checkWin((player == 'X') ? 'O' : 'X')) {
         return -10000;
     }
 
@@ -178,7 +180,7 @@ int evaluate(const HexGame& game, char player) {
         for (int j = 0; j < size; j++) {
             if (game.getCell(i, j) == player) {
                 // Ближе к центру - больше очков
-                int distanceFromCenter = abs(i - size / 2) + abs(j - size / 2);
+                int distanceFromCenter = abs(size / 2 - i) + abs(size / 2 - j);
                 score += (size - distanceFromCenter) * 10;
 
                 // Ячейки на краю важны для победы
@@ -189,7 +191,7 @@ int evaluate(const HexGame& game, char player) {
             }
             else if (game.getCell(i, j) != ' ') {
                 // Противник
-                int distanceFromCenter = abs(i - size / 2) + abs(j - size / 2);
+                int distanceFromCenter = abs(size / 2 - i) + abs(size / 2 - j);
                 score -= (size - distanceFromCenter) * 10;
 
                 if (player != 'X' && j == 0) score -= 50;
@@ -226,7 +228,7 @@ int alphabeta(HexGame& game, int depth, int alpha, int beta,
             int eval = alphabeta(gameCopy, depth - 1, alpha, beta, false, maximizingPlayer);
 
             // Отменяем ход
-            /*gameCopy.makeMove(move.row, move.col, oldCellState);*/
+            gameCopy.makeMove(move.row, move.col, oldCellState);
 
             maxEval = max(maxEval, eval);
             alpha = max(alpha, eval);
@@ -249,10 +251,10 @@ int alphabeta(HexGame& game, int depth, int alpha, int beta,
             gameCopy.makeMove(move.row, move.col, minimizingPlayer);
 
             // Рекурсивный вызов
-            int eval = alphabeta(gameCopy, depth - 1, alpha, beta, true, minimizingPlayer);
+            int eval = alphabeta(gameCopy, depth - 1, alpha, beta, true, maximizingPlayer);
 
             // Отменяем ход
-            /*gameCopy.makeMove(move.row, move.col, oldCellState);*/
+            gameCopy.makeMove(move.row, move.col, oldCellState);
 
             minEval = min(minEval, eval);
             beta = min(beta, eval);
