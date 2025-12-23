@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-    HexGame game(11); // Доска 5x5
+    HexGame game(11); // Доска 11x11
     int size = 11;
 
     // Человек vs AI
@@ -31,7 +31,7 @@ int main() {
 
         // Ход AI
         std::cout << "Move AI..." << std::endl;
-        Move aiMove = findBestMove(game, 2, ai);
+        Move aiMove = findBestMove(game, 3, ai);
 
         if (aiMove.row != -1) {
             game.makeMove(aiMove.row, aiMove.col, ai);
